@@ -106,7 +106,6 @@ background-color: rgba(0,0,0,0.3);
     		</div>			
         <?php endif;?>
             </div>
-            
             <?php if($_layout != 'horizontal'): ?>
               	<div id="product-collateral">		
        				 <?php echo $this->getChildHtml('info_tabs') ?>
@@ -120,25 +119,9 @@ background-color: rgba(0,0,0,0.3);
                         <?php echo $share_code; ?>
                     <?php endif; ?>
                 </div>
-            <?php endif; ?>
-            </div>
-			</form>
-            <?php /*?><?php if($_layout != 'horizontal'): ?>
-              	<div id="product-collateral">		
-       				 <?php echo $this->getChildHtml('info_tabs') ?>
-        			<?php echo $this->getChildHtml('product_additional_data') ?>			
-				</div>
-				<div class="product_right">
-                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('productview')->toHtml(); ?>
-                    <?php $use_share = themeOptions('use_share'); ?>
-                    <?php $share_code = themeOptions('share_code'); ?>
-                    <?php if($use_share && $share_code): ?>  
-                        <?php echo $share_code; ?>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>	<?php */?>	
+            <?php endif; ?>		
         </div>        
-    
+	</form>
     <?php if($enable_ajax): ?>
     <script type="text/javascript">
     //<![CDATA[
