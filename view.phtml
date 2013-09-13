@@ -6,12 +6,26 @@
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
+
+<style>
+
+#product_tabs_product_review_contents{ display:none;}
+.modalOverlay {
+position: fixed;
+width: 100%;
+height: 100%;
+top: 0px;
+left: 0px;
+background-color: rgba(0,0,0,0.3); 
+}
+
+</style>
 <a class="back-to" href="javascript: history.go(-1)"><?php echo $this->__('Return to Previous Page') ?></a>
         
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="product-view layout_<?php echo $_layout ?>">
     <div class="product-essential">
-    <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+ 	 <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
         <div class="no-display">
             <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
             <input type="hidden" name="related_product" id="related-products-field" value="" />
@@ -34,7 +48,7 @@
                 <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
                 <?php echo $this->getChildHtml('alert_urls') ?>
                 <?php echo $this->getChildHtml('extrahint') ?>
-                
+                <div class="a"><?php echo $this->getChildHtml('product_review') ?></div>
                 <div class="clear"></div>
                 <!--<div class="addtocont">
                     <?php if($_product->getTypeId() != 'bundle'): ?>
@@ -72,6 +86,17 @@
                 <?php endif; ?>  
                 
                 <?php echo $this->getChildHtml('other');?>
+                    
+                <div class="reviewpopup_box">
+                    <?php echo $this->getChildHtml('product_review_data'); ?>
+					
+					<?php //echo $this->getChildHtml('collection') ?>
+                </div>    
+                    
+				<?php // echo $this->getLayout()->createBlock('cms/block')->setBlockId('product-review')->toHtml() ?>	
+				<?php // echo $this->getChildHtml('collection') ?>
+					
+
 			<div class="clearer"></div>
         <?php if ($_product->isSaleable() && $this->hasOptions()):?>
             <div id="container2"><?php echo $this->getChildChildHtml('container2', '', true, true) ?></div>
@@ -81,6 +106,7 @@
     		</div>			
         <?php endif;?>
             </div>
+            
             <?php if($_layout != 'horizontal'): ?>
               	<div id="product-collateral">		
        				 <?php echo $this->getChildHtml('info_tabs') ?>
@@ -94,9 +120,25 @@
                         <?php echo $share_code; ?>
                     <?php endif; ?>
                 </div>
-            <?php endif; ?>		
+            <?php endif; ?>
+            </div>
+			</form>
+            <?php /*?><?php if($_layout != 'horizontal'): ?>
+              	<div id="product-collateral">		
+       				 <?php echo $this->getChildHtml('info_tabs') ?>
+        			<?php echo $this->getChildHtml('product_additional_data') ?>			
+				</div>
+				<div class="product_right">
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('productview')->toHtml(); ?>
+                    <?php $use_share = themeOptions('use_share'); ?>
+                    <?php $share_code = themeOptions('share_code'); ?>
+                    <?php if($use_share && $share_code): ?>  
+                        <?php echo $share_code; ?>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>	<?php */?>	
         </div>        
-    </form>
+    
     <?php if($enable_ajax): ?>
     <script type="text/javascript">
     //<![CDATA[
@@ -220,9 +262,45 @@
                 Object.extend(Validation.methods, nv);
             }
         }.bind(productAddToCartForm);
+        
+
     //]]>
     </script>
     <?php endif; ?>	  
+  <script type="text/javascript">
+    //<![CDATA[
+    jQuery(document).ready(function(){
+	
+			     jQuery('.ar').bind("click", function(){			       
+					jQuery("body").append('<div class="modalOverlay">');
+				
+           		 });
+				 
+				 jQuery('.buttons-set').bind("click", function(){			       
+					jQuery('div').removeClass('modalOverlay');
+				
+           		 });
+			
+	
+		            jQuery('.allreviews_link').bind("click", function(){
+                jQuery('.reviewpopup_box').show();
+				jQuery("body").append('<div class="modalOverlay">');
+
+				
+            });
+            
+            jQuery('.close_reviewpopup').bind("click", function(){
+			jQuery('.reviewpopup_box').hide();
+			jQuery('div').removeClass('modalOverlay');
+             
+				
+            });
+            
+            
+        });
+    //]]>
+    </script>
+    
 		</div>
         <?php echo $this->getChildHtml('related_products') ?>
         <?php echo $this->getChildHtml('upsell_products') ?>
