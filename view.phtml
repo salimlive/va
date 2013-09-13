@@ -6,6 +6,7 @@
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
+
 <style>
 
 #product_tabs_product_review_contents{ display:none;}
@@ -24,7 +25,7 @@ background-color: rgba(0,0,0,0.3);
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="product-view layout_<?php echo $_layout ?>">
     <div class="product-essential">
-    <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+ 	 <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
         <div class="no-display">
             <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
             <input type="hidden" name="related_product" id="related-products-field" value="" />
@@ -47,7 +48,7 @@ background-color: rgba(0,0,0,0.3);
                 <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
                 <?php echo $this->getChildHtml('alert_urls') ?>
                 <?php echo $this->getChildHtml('extrahint') ?>
-                
+                <div class="a"><?php echo $this->getChildHtml('product_review') ?></div>
                 <div class="clear"></div>
                 <!--<div class="addtocont">
                     <?php if($_product->getTypeId() != 'bundle'): ?>
@@ -85,8 +86,13 @@ background-color: rgba(0,0,0,0.3);
                 <?php endif; ?>  
                 
                 <?php echo $this->getChildHtml('other');?>
-			<div class="clearer"></div>
-        <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                    
+                <div class="reviewpopup_box">
+                    <?php echo $this->getChildHtml('product_review_data'); ?>
+					
+					<?php //echo $this->getChildHtml('collection') ?>
+                </div>    
+                            <?php if ($_product->isSaleable() && $this->hasOptions()):?>
             <div id="container2"><?php echo $this->getChildChildHtml('container2', '', true, true) ?></div>
 			<div id="product-collateral">
         <?php echo $this->getChildHtml('info_tabs') ?>
@@ -108,9 +114,15 @@ background-color: rgba(0,0,0,0.3);
                     <?php endif; ?>
                 </div>
             <?php endif; ?>		
+
+				<?php // echo $this->getLayout()->createBlock('cms/block')->setBlockId('product-review')->toHtml() ?>	
+				<?php // echo $this->getChildHtml('collection') ?>
+					
+
+			<div class="clearer"></div>
         </div>        
     </form>
-   <?php if($enable_ajax): ?>
+    <?php if($enable_ajax): ?>
     <script type="text/javascript">
     //<![CDATA[
         var productAddToCartForm = new VarienForm('product_addtocart_form');
@@ -271,6 +283,7 @@ background-color: rgba(0,0,0,0.3);
         });
     //]]>
     </script>
+    
 		</div>
         <?php echo $this->getChildHtml('related_products') ?>
         <?php echo $this->getChildHtml('upsell_products') ?>
